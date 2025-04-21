@@ -1,6 +1,5 @@
 node_modules/
 dist/
-ftr-site-config/
 *.log
 .DS_Store
 .env
