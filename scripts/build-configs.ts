@@ -74,20 +74,8 @@ const KNOWN_DIRECTIVES = new Set([
  * Parses a site config text file into a SiteConfig object
  */
 function parseConfigFile(content: string, filename: string): SiteConfig {
-  const config: SiteConfig = {
-    title: [],
-    body: [],
-    strip: [],
-    strip_id_or_class: [],
-    strip_image_src: [],
-    find_string: [],
-    replace_string: [],
-    http_header: {},
-    wrap_in: {},
-    native_ad_clue: [],
-    skip_json_ld: true,
-    src_lazy_load_attr: undefined,
-  };
+  // Create an empty config object - we'll only add fields that are explicitly defined
+  const config: Partial<SiteConfig> = {};
 
   const unknownDirectives = new Set<string>();
   const lines = content.split('\n');
@@ -112,18 +100,30 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
         }
 
         if (directive === 'http_header') {
-          config.http_header![param] = trimmedValue;
+          if (!config.http_header) {
+            config.http_header = {};
+          }
+          config.http_header[param] = trimmedValue;
           continue;
         }
 
         if (directive === 'replace_string') {
-          config.find_string!.push(param);
-          config.replace_string!.push(trimmedValue);
+          if (!config.find_string) {
+            config.find_string = [];
+          }
+          if (!config.replace_string) {
+            config.replace_string = [];
+          }
+          config.find_string.push(param);
+          config.replace_string.push(trimmedValue);
           continue;
         }
 
         if (directive === 'wrap_in') {
-          config.wrap_in![param] = trimmedValue;
+          if (!config.wrap_in) {
+            config.wrap_in = {};
+          }
+          config.wrap_in[param] = trimmedValue;
           continue;
         }
 
@@ -147,20 +147,24 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
         continue;
       }
 
-      // Handle boolean values
-      if (BOOLEAN_TAGS.has(key)) {
-        (config as any)[key] = (value.toLowerCase() === 'yes' || value.toLowerCase() === 'true');
-        continue;
-      }
+      // Boolean values are now handled in the main switch below
 
       // Handle strip_attr as an alias for strip
       if (key === 'strip_attr') {
-        config.strip!.push(value);
+        if (!config.strip) {
+          config.strip = [];
+        }
+        config.strip.push(value);
         continue;
       }
 
-      // Handle array values
-      if (Array.isArray(config[key as keyof SiteConfig])) {
+      // Handle array values for content selectors and modifiers
+      if (['title', 'body', 'date', 'author', 'strip', 'strip_id_or_class', 'strip_image_src', 
+           'single_page_link', 'single_page_link_in_feed', 'next_page_link', 'native_ad_clue',
+           'find_string', 'replace_string'].includes(key)) {
+        if (!config[key as keyof SiteConfig]) {
+          (config as any)[key] = [];
+        }
         (config[key as keyof SiteConfig] as string[]).push(value);
       }
       // Handle if_page_contains
@@ -173,6 +177,14 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
         const subKey = parts[0];
         const subValue = parts.slice(1).join(' ');
         config.if_page_contains[subKey] = subValue;
+      }
+      // Handle boolean values
+      else if (BOOLEAN_TAGS.has(key)) {
+        (config as any)[key] = (value.toLowerCase() === 'yes' || value.toLowerCase() === 'true');
+      }
+      // Handle string values
+      else if (key === 'src_lazy_load_attr') {
+        config.src_lazy_load_attr = value;
       }
       // Track unknown directives for debug purposes
       else if (!KNOWN_DIRECTIVES.has(key)) {
