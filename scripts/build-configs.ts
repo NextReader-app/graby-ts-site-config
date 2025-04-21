@@ -21,7 +21,7 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 // Track known directive types for debugging unknown ones
 const KNOWN_DIRECTIVES = new Set([
   'title', 'body', 'date', 'author', 'strip', 'strip_id_or_class',
-  'strip_image_src', 'tidy', 'prune', 'autodetect_on_failure',
+  'strip_image_src', 'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image',
   'single_page_link', 'single_page_link_in_feed', 'next_page_link',
   'find_string', 'replace_string', 'http_header', 'if_page_contains',
   'wrap_in', 'test_url', 'test_contains', 'parser', 'convert_double_br_tags'
@@ -97,8 +97,8 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
       }
 
       // Handle boolean values
-      if (key === 'tidy' || key === 'prune' || key === 'autodetect_on_failure') {
-        (config as any)[key] = (value === 'yes' || value === 'true');
+      if (key === 'tidy' || key === 'prune' || key === 'autodetect_on_failure' || key === 'insert_detected_image') {
+        (config as any)[key] = (value.toLowerCase() === 'yes' || value.toLowerCase() === 'true');
         continue;
       }
 

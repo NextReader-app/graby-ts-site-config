@@ -18,6 +18,7 @@ export interface SiteConfig {
   tidy?: boolean;                       // Preprocess with Tidy
   prune?: boolean;                      // Strip non-content elements
   autodetect_on_failure?: boolean;      // Auto-detect if patterns fail
+  insert_detected_image?: boolean;      // Insert detected image from metadata
 
   // Multi-page handling
   single_page_link?: string[];          // Link to single-page view
