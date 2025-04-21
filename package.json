@@ -1,0 +1,36 @@
+{
+  "name": "grabby-js-site-config",
+  "version": "1.0.0",
+  "description": "Site configuration loader for Grabby-JS with dynamic imports",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "update-source": "git submodule update --remote ftr-site-config || git clone https://github.com/fivefilters/ftr-site-config.git",
+    "build:configs": "NODE_OPTIONS=--experimental-specifier-resolution=node ts-node --esm scripts/build-configs.ts",
+    "build:ts": "tsc",
+    "build": "npm run update-source && npm run build:configs && npm run build:ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "grabby-js",
+    "readability",
+    "site-config",
+    "content-extraction",
+    "fivefilters"
+  ],
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/node": "^22.14.1",
+    "glob": "^11.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,48 @@
+/**
+ * Site configuration for content extraction
+ * Based on FiveFilters site pattern format
+ */
+export interface SiteConfig {
+  // XPath expressions for targeting content
+  title?: string[];                     // The page title
+  body?: string[];                      // The body of the article
+  date?: string[];                      // The publication date
+  author?: string[];                    // The author(s) of the piece
+
+  // Elements to remove
+  strip?: string[];                     // Strip matching elements
+  strip_id_or_class?: string[];         // Strip elements by class/id
+  strip_image_src?: string[];           // Strip images by src
+
+  // Content processing options
+  tidy?: boolean;                       // Preprocess with Tidy
+  prune?: boolean;                      // Strip non-content elements
+  autodetect_on_failure?: boolean;      // Auto-detect if patterns fail
+
+  // Multi-page handling
+  single_page_link?: string[];          // Link to single-page view
+  single_page_link_in_feed?: string[];  // Single-page link in feed items
+  next_page_link?: string[];            // Link to next page
+
+  // String replacements
+  find_string?: string[];               // Strings to find
+  replace_string?: string[];            // Replacement strings
+
+  // HTTP options
+  http_header?: Record<string, string>; // Additional HTTP headers
+
+  // Conditional processing
+  if_page_contains?: Record<string, string>; // Conditional rules
+
+  // Wrapping elements
+  wrap_in?: Record<string, string>;     // Wrap elements with specified tag
+}
+
+/**
+ * Information about available site configurations
+ */
+export interface SiteIndexData {
+  domains: Record<string, boolean>;     // Domains like example.com
+  wildcards: string[];                  // Wildcard domains starting with . (e.g. .example.com)
+  specificSubdomains: Record<string, boolean>; // Specific subdomains (e.g. blog.example.com)
+}
