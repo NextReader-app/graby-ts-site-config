@@ -39,7 +39,7 @@ jest.mock('../site-index', () => ({
   hasConfig: (hostname: string) => {
     if (hostname === 'example.com' || hostname === 'www.example.com' || 
         hostname === 'test.com' || hostname === 'sub.example.org' || 
-        hostname === 'blog.test.net') {
+        hostname === 'another.example.org' || hostname === 'blog.test.net') {
       return true;
     }
     return false;
@@ -93,6 +93,25 @@ describe('SiteConfigManager', () => {
     expect(manager['getConfigKeyForHost']('blog.test.net')).toBe('blog.test.net');
     // @ts-ignore - Access private method for testing
     expect(manager['getConfigKeyForHost']('unknown.com')).toBeNull();
+  });
+  
+  test('domain pattern matching follows documentation rules', () => {
+    // Case 1: example.com.txt should match both www.example.com and example.com
+    expect(manager.hasConfigForHost('example.com')).toBe(true);
+    expect(manager.hasConfigForHost('www.example.com')).toBe(true);
+    
+    // Case 2: .example.org should match any subdomain like sport.example.org
+    expect(manager.hasConfigForHost('sub.example.org')).toBe(true);
+    expect(manager.hasConfigForHost('another.example.org')).toBe(true);
+    
+    // Case 3: .example.org should NOT match the main domain or www subdomain
+    expect(manager.hasConfigForHost('example.org')).toBe(false);
+    expect(manager.hasConfigForHost('www.example.org')).toBe(false);
+    
+    // Case 4: Specific subdomain should only match that exact subdomain
+    expect(manager.hasConfigForHost('blog.test.net')).toBe(true);
+    expect(manager.hasConfigForHost('news.test.net')).toBe(false);
+    expect(manager.hasConfigForHost('test.net')).toBe(false);
   });
 
   test('getConfigForHost loads configuration', async () => {
