@@ -71,7 +71,7 @@ export function parseConfigFile(content: string, filename: string): SiteConfig {
 
     // Handle special function-like directives: directive(param): value
     if (trimmed.includes('(') && trimmed.includes('):')) {
-      const match = trimmed.match(/^([a-z_]+)\(([^)]+)\):(.+)$/i);
+      const match = trimmed.match(/^([a-z_]+)\(([^)]+)\):(.*)$/i);
       if (match) {
         const [, directive, param, value] = match;
         const trimmedValue = value.trim();
@@ -122,7 +122,12 @@ export function parseConfigFile(content: string, filename: string): SiteConfig {
       const key = trimmed.substring(0, colonIndex).trim();
       const value = trimmed.substring(colonIndex + 1).trim();
 
-      if (!key || !value) continue;
+      // Skip if key is empty, but allow empty values for certain keys
+      if (!key) continue;
+      
+      // For most keys, we need a non-empty value
+      // Exception: replace_string can have an empty value (to replace with nothing)
+      if (!value && key !== 'replace_string') continue;
 
       // Skip all ignored tags
       if (IGNORED_AUTH_TAGS.has(key) || IGNORED_TEST_TAGS.has(key) || IGNORED_OTHER_TAGS.has(key)) {

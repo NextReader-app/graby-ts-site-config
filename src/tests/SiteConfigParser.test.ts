@@ -121,6 +121,31 @@ describe('SiteConfigParser', () => {
     // Restore console.warn
     console.warn = originalWarn;
   });
+  
+  test('correctly handles empty replace_string value', () => {
+    const configText = `
+      find_string: class="views-field-field-teaser-value"
+      replace_string: 
+    `;
+    
+    const config = parseConfigFile(configText, 'test');
+    expect(config).toEqual({
+      find_string: ['class="views-field-field-teaser-value"'],
+      replace_string: ['']
+    });
+  });
+  
+  test('correctly handles empty function-style replace_string value', () => {
+    const configText = `
+      replace_string(class="views-field-field-teaser-value"): 
+    `;
+    
+    const config = parseConfigFile(configText, 'test');
+    expect(config).toEqual({
+      find_string: ['class="views-field-field-teaser-value"'],
+      replace_string: ['']
+    });
+  });
 
   test('correctly handles src_lazy_load_attr', () => {
     const configText = `
