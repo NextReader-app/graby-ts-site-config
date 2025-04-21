@@ -25,7 +25,7 @@ const IGNORED_AUTH_TAGS = new Set([
 
 // Testing and debugging related tags that we'll ignore
 const IGNORED_TEST_TAGS = new Set([
-  'test_url', 'test_contains', 'test_content'
+  'test', 'test_url', 'test_contains', 'test_content', 'test_urls'
 ]);
 
 // Other tags that we currently don't process
