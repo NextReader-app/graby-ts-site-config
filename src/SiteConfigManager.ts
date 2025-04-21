@@ -129,6 +129,7 @@ export class SiteConfigManager {
       if_page_contains: [],
       insert_detected_image: true, // Default is true according to the documentation
       autodetect_on_failure: true, // Default is true
+      prune: true, // Default is true to clean content from non-essential elements
       skip_json_ld: true, // Default is true as specified
       src_lazy_load_attr: [],
       // Add any other default properties your SiteConfig type requires
