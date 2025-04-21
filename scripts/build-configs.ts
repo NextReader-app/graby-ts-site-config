@@ -18,14 +18,50 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
+// Authentication-related tags that we'll ignore
+const IGNORED_AUTH_TAGS = new Set([
+  'requires_login', 'login_uri', 'login_username_field', 'login_password_field', 'login_extra_fields'
+]);
+
+// Testing and debugging related tags that we'll ignore
+const IGNORED_TEST_TAGS = new Set([
+  'test_url', 'test_contains'
+]);
+
+// Other tags that we currently don't process
+const IGNORED_OTHER_TAGS = new Set([
+  'parser', 'convert_double_br_tags', 'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes'
+]);
+
+// Boolean parameters - these will be converted to boolean values
+const BOOLEAN_TAGS = new Set([
+  'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image'
+]);
+
 // Track known directive types for debugging unknown ones
 const KNOWN_DIRECTIVES = new Set([
-  'title', 'body', 'date', 'author', 'strip', 'strip_attr', 'strip_id_or_class',
-  'strip_image_src', 'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image',
+  // Core content extraction selectors
+  'title', 'body', 'date', 'author',
+
+  // Content modification directives
+  'strip', 'strip_attr', 'strip_id_or_class', 'strip_image_src',
+
+  // Boolean options
+  ...BOOLEAN_TAGS,
+
+  // Multi-page handling
   'single_page_link', 'single_page_link_in_feed', 'next_page_link',
-  'find_string', 'replace_string', 'http_header', 'if_page_contains',
-  'wrap_in', 'test_url', 'test_contains', 'parser', 'convert_double_br_tags',
-  'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes',
+
+  // String replacements
+  'find_string', 'replace_string',
+
+  // HTTP and special directives
+  'http_header', 'if_page_contains', 'wrap_in',
+
+  // Ignored directives we still want to recognize
+  ...IGNORED_AUTH_TAGS,
+  ...IGNORED_TEST_TAGS,
+  ...IGNORED_OTHER_TAGS
 ]);
 
 /**
@@ -61,6 +97,11 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
         const [, directive, param, value] = match;
         const trimmedValue = value.trim();
 
+        // Skip ignored directives
+        if (IGNORED_AUTH_TAGS.has(directive) || IGNORED_TEST_TAGS.has(directive) || IGNORED_OTHER_TAGS.has(directive)) {
+          continue;
+        }
+
         if (directive === 'http_header') {
           config.http_header![param] = trimmedValue;
           continue;
@@ -92,14 +133,13 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
 
       if (!key || !value) continue;
 
-      // Skip test and unused entries
-      if (key in ['test_url', 'test_contains', 'parser', 'convert_double_br_tags', 'strip_comments', 'move_into',
-        'autodetect_next_page', 'dissolve', 'footnotes']) {
+      // Skip all ignored tags
+      if (IGNORED_AUTH_TAGS.has(key) || IGNORED_TEST_TAGS.has(key) || IGNORED_OTHER_TAGS.has(key)) {
         continue;
       }
 
       // Handle boolean values
-      if (key === 'tidy' || key === 'prune' || key === 'autodetect_on_failure' || key === 'insert_detected_image') {
+      if (BOOLEAN_TAGS.has(key)) {
         (config as any)[key] = (value.toLowerCase() === 'yes' || value.toLowerCase() === 'true');
         continue;
       }
