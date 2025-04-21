@@ -115,8 +115,7 @@ describe('SiteConfigParser', () => {
     });
 
     expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining('find_string & replace_string size mismatch'),
-      expect.any(Object)
+      expect.stringContaining('find_string & replace_string size mismatch')
     );
 
     // Restore console.warn

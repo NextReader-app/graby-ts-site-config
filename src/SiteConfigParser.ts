@@ -172,10 +172,7 @@ export function parseConfigFile(content: string, filename: string): SiteConfig {
     const replaceLength = config.replace_string?.length || 0;
     
     if (findLength !== replaceLength) {
-      console.warn('find_string & replace_string size mismatch, check the site config to fix it', {
-        find_size: findLength, 
-        replace_size: replaceLength
-      });
+      console.warn(`[${filename}] find_string & replace_string size mismatch: found ${findLength} find_string and ${replaceLength} replace_string entries`);
       config.find_string = [];
       config.replace_string = [];
     }
