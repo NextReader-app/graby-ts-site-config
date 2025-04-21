@@ -33,7 +33,7 @@ export interface SiteConfig {
   http_header?: Record<string, string>; // Additional HTTP headers
 
   // Conditional processing
-  if_page_contains?: Record<string, string>; // Conditional rules
+  if_page_contains?: string[];            // XPath expressions for conditional processing
 
   // Wrapping elements
   wrap_in?: Record<string, string>;     // Wrap elements with specified tag

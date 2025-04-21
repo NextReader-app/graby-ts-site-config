@@ -161,22 +161,11 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
       // Handle array values for content selectors and modifiers
       if (['title', 'body', 'date', 'author', 'strip', 'strip_id_or_class', 'strip_image_src', 
            'single_page_link', 'single_page_link_in_feed', 'next_page_link', 'native_ad_clue',
-           'find_string', 'replace_string', 'src_lazy_load_attr'].includes(key)) {
+           'find_string', 'replace_string', 'src_lazy_load_attr', 'if_page_contains'].includes(key)) {
         if (!config[key as keyof SiteConfig]) {
           (config as any)[key] = [];
         }
         (config[key as keyof SiteConfig] as string[]).push(value);
-      }
-      // Handle if_page_contains
-      else if (key === 'if_page_contains') {
-        if (!config.if_page_contains) {
-          config.if_page_contains = {};
-        }
-        // Parse if_page_contains format
-        const parts = value.split(' ');
-        const subKey = parts[0];
-        const subValue = parts.slice(1).join(' ');
-        config.if_page_contains[subKey] = subValue;
       }
       // Handle boolean values
       else if (BOOLEAN_TAGS.has(key)) {
