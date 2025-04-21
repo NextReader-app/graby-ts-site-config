@@ -13,7 +13,7 @@ export default {
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  testMatch: ['**/tests/**/*.test.ts'],
+  testMatch: ['**/src/tests/**/*.test.ts'],
   collectCoverage: true,
   coverageDirectory: 'coverage',
   collectCoverageFrom: [

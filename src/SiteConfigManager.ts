@@ -106,7 +106,7 @@ export class SiteConfigManager {
   private async loadConfig(configKey: string): Promise<SiteConfig> {
     try {
       // Dynamic import for the config file
-      const configModule = await import(`./configs/${configKey}.js`);
+      const configModule = await import(`./sites/${configKey}.js`);
       return configModule.default as SiteConfig;
     } catch (error) {
       console.error(`Failed to load config for ${configKey}:`, error);
