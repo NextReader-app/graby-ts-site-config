@@ -167,11 +167,14 @@ export function parseConfigFile(content: string, filename: string): SiteConfig {
   }
 
   // Clean up find_string & replace_string if they don't have equal numbers
-  if (config.find_string && config.replace_string) {
-    if (config.find_string.length !== config.replace_string.length) {
+  if (config.find_string || config.replace_string) {
+    const findLength = config.find_string?.length || 0;
+    const replaceLength = config.replace_string?.length || 0;
+    
+    if (findLength !== replaceLength) {
       console.warn('find_string & replace_string size mismatch, check the site config to fix it', {
-        find_size: config.find_string.length, 
-        replace_size: config.replace_string.length
+        find_size: findLength, 
+        replace_size: replaceLength
       });
       config.find_string = [];
       config.replace_string = [];

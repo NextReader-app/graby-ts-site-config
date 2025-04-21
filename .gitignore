@@ -7,3 +7,4 @@ ftr-site-config/
 package-lock.json
 /src/site-index.ts
 /src/sites/
+/coverage/
