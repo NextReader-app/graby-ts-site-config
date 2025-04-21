@@ -30,12 +30,12 @@ const IGNORED_TEST_TAGS = new Set([
 
 // Other tags that we currently don't process
 const IGNORED_OTHER_TAGS = new Set([
-  'parser', 'convert_double_br_tags', 'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes', 'skip_id_or_class'
+  'parser', 'convert_double_br_tags', 'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes', 'skip_id_or_class', 'tidy'
 ]);
 
 // Boolean parameters - these will be converted to boolean values
 const BOOLEAN_TAGS = new Set([
-  'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image', 'skip_json_ld'
+  'prune', 'autodetect_on_failure', 'insert_detected_image', 'skip_json_ld'
 ]);
 
 // Track known directive types for debugging unknown ones

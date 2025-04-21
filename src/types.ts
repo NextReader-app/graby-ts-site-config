@@ -15,7 +15,6 @@ export interface SiteConfig {
   strip_image_src?: string[];           // Strip images by src
 
   // Content processing options
-  tidy?: boolean;                       // Preprocess with Tidy
   prune?: boolean;                      // Strip non-content elements
   autodetect_on_failure?: boolean;      // Auto-detect if patterns fail
   insert_detected_image?: boolean;      // Insert detected image from metadata
