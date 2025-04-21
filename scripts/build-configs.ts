@@ -30,7 +30,7 @@ const IGNORED_TEST_TAGS = new Set([
 
 // Other tags that we currently don't process
 const IGNORED_OTHER_TAGS = new Set([
-  'parser', 'convert_double_br_tags', 'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes'
+  'parser', 'convert_double_br_tags', 'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes', 'skip_id_or_class'
 ]);
 
 // Boolean parameters - these will be converted to boolean values
