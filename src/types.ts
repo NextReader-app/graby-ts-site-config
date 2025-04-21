@@ -42,7 +42,7 @@ export interface SiteConfig {
   native_ad_clue?: string[];            // XPath to identify native ads
   
   // Image handling
-  src_lazy_load_attr?: string;          // Image attribute name for lazyloaded images
+  src_lazy_load_attr?: string[];        // Image attribute names for lazyloaded images
 }
 
 /**

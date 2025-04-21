@@ -161,7 +161,7 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
       // Handle array values for content selectors and modifiers
       if (['title', 'body', 'date', 'author', 'strip', 'strip_id_or_class', 'strip_image_src', 
            'single_page_link', 'single_page_link_in_feed', 'next_page_link', 'native_ad_clue',
-           'find_string', 'replace_string'].includes(key)) {
+           'find_string', 'replace_string', 'src_lazy_load_attr'].includes(key)) {
         if (!config[key as keyof SiteConfig]) {
           (config as any)[key] = [];
         }
@@ -181,10 +181,6 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
       // Handle boolean values
       else if (BOOLEAN_TAGS.has(key)) {
         (config as any)[key] = (value.toLowerCase() === 'yes' || value.toLowerCase() === 'true');
-      }
-      // Handle string values
-      else if (key === 'src_lazy_load_attr') {
-        config.src_lazy_load_attr = value;
       }
       // Track unknown directives for debug purposes
       else if (!KNOWN_DIRECTIVES.has(key)) {
