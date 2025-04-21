@@ -24,7 +24,8 @@ const KNOWN_DIRECTIVES = new Set([
   'strip_image_src', 'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image',
   'single_page_link', 'single_page_link_in_feed', 'next_page_link',
   'find_string', 'replace_string', 'http_header', 'if_page_contains',
-  'wrap_in', 'test_url', 'test_contains', 'parser', 'convert_double_br_tags'
+  'wrap_in', 'test_url', 'test_contains', 'parser', 'convert_double_br_tags',
+  'strip_comments', 'move_into', 'autodetect_next_page', 'dissolve', 'footnotes',
 ]);
 
 /**
@@ -92,7 +93,8 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
       if (!key || !value) continue;
 
       // Skip test and unused entries
-      if (key in ['test_url', 'test_contains', 'parser', 'convert_double_br_tags']) {
+      if (key in ['test_url', 'test_contains', 'parser', 'convert_double_br_tags', 'strip_comments', 'move_into',
+        'autodetect_next_page', 'dissolve', 'footnotes']) {
         continue;
       }
 
