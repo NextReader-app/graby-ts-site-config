@@ -203,6 +203,11 @@ console.log(`Found ${configFiles.length} config files`);
 
 for (const file of configFiles) {
   const basename = path.basename(file, '.txt');
+  
+  // Skip files with only TLD (except 'global')
+  if (basename !== 'global' && !basename.includes('.')) {
+    continue;
+  }
 
   // Skip test_url entries and empty configs
   const content = fs.readFileSync(file, 'utf8');
