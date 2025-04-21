@@ -35,7 +35,7 @@ const IGNORED_OTHER_TAGS = new Set([
 
 // Boolean parameters - these will be converted to boolean values
 const BOOLEAN_TAGS = new Set([
-  'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image'
+  'tidy', 'prune', 'autodetect_on_failure', 'insert_detected_image', 'skip_json_ld'
 ]);
 
 // Track known directive types for debugging unknown ones
@@ -82,6 +82,7 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
     http_header: {},
     wrap_in: {},
     native_ad_clue: [],
+    skip_json_ld: true,
   };
 
   const unknownDirectives = new Set<string>();

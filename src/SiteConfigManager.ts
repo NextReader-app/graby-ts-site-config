@@ -127,6 +127,7 @@ export class SiteConfigManager {
       strip: [],
       native_ad_clue: [],
       insert_detected_image: true, // Default is true according to the documentation
+      skip_json_ld: true, // Default is true as specified
       // Add any other default properties your SiteConfig type requires
     };
   }

@@ -19,6 +19,7 @@ export interface SiteConfig {
   prune?: boolean;                      // Strip non-content elements
   autodetect_on_failure?: boolean;      // Auto-detect if patterns fail
   insert_detected_image?: boolean;      // Insert detected image from metadata
+  skip_json_ld?: boolean;               // Skip extraction from JSON-LD data
 
   // Multi-page handling
   single_page_link?: string[];          // Link to single-page view
