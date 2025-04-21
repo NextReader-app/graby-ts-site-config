@@ -128,6 +128,7 @@ export class SiteConfigManager {
       native_ad_clue: [],
       insert_detected_image: true, // Default is true according to the documentation
       skip_json_ld: true, // Default is true as specified
+      src_lazy_load_attr: undefined, // Default is undefined
       // Add any other default properties your SiteConfig type requires
     };
   }

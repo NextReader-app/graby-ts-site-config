@@ -54,6 +54,9 @@ const KNOWN_DIRECTIVES = new Set([
 
   // Advertisement detection
   'native_ad_clue',
+  
+  // Image handling
+  'src_lazy_load_attr',
 
   // String replacements
   'find_string', 'replace_string',
@@ -83,6 +86,7 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
     wrap_in: {},
     native_ad_clue: [],
     skip_json_ld: true,
+    src_lazy_load_attr: undefined,
   };
 
   const unknownDirectives = new Set<string>();
