@@ -167,8 +167,7 @@ export function parseConfigFile(content: string, filename: string): SiteConfig {
 
   // Log unknown directives for debugging
   if (unknownDirectives.size > 0) {
-    console.log(`\nUnknown directives in ${filename}:`);
-    unknownDirectives.forEach(dir => console.log(`  - ${dir}`));
+    unknownDirectives.forEach(dir => console.log(`[${filename}] Unknown directive: ${dir}`));
   }
 
   // Clean up find_string & replace_string if they don't have equal numbers
