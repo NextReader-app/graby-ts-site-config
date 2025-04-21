@@ -20,7 +20,7 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 
 // Authentication-related tags that we'll ignore
 const IGNORED_AUTH_TAGS = new Set([
-  'requires_login', 'login_uri', 'login_username_field', 'login_password_field', 'login_extra_fields'
+  'requires_login', 'login_uri', 'login_username_field', 'login_password_field', 'login_extra_fields', 'not_logged_in_xpath'
 ]);
 
 // Testing and debugging related tags that we'll ignore
