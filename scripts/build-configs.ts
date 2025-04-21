@@ -52,6 +52,9 @@ const KNOWN_DIRECTIVES = new Set([
   // Multi-page handling
   'single_page_link', 'single_page_link_in_feed', 'next_page_link',
 
+  // Advertisement detection
+  'native_ad_clue',
+
   // String replacements
   'find_string', 'replace_string',
 
@@ -78,6 +81,7 @@ function parseConfigFile(content: string, filename: string): SiteConfig {
     replace_string: [],
     http_header: {},
     wrap_in: {},
+    native_ad_clue: [],
   };
 
   const unknownDirectives = new Set<string>();

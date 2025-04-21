@@ -37,6 +37,9 @@ export interface SiteConfig {
 
   // Wrapping elements
   wrap_in?: Record<string, string>;     // Wrap elements with specified tag
+
+  // Advertisement detection
+  native_ad_clue?: string[];            // XPath to identify native ads
 }
 
 /**

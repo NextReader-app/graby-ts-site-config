@@ -125,6 +125,7 @@ export class SiteConfigManager {
       date: [],
       body: [],
       strip: [],
+      native_ad_clue: [],
       insert_detected_image: true, // Default is true according to the documentation
       // Add any other default properties your SiteConfig type requires
     };
