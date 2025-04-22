@@ -1,6 +1,6 @@
-# Grabby-JS Site Config
+# Graby-TS Site Config
 
-A dynamic site configuration loader for Grabby-JS based on FiveFilters site patterns format.
+A dynamic site configuration loader for Graby-TS based on FiveFilters site patterns format.
 This library provides standardized content extraction rules for different websites, allowing for consistent extraction
 across a wide range of domains.
 
@@ -18,13 +18,13 @@ The site configuration rules are sourced from [FiveFilters ftr-site-config](http
 ## Installation
 
 ```bash
-npm install grabby-js-site-config
+npm install graby-ts-site-config
 ```
 
 ## Usage
 
 ```javascript
-import { SiteConfigManager } from 'grabby-js-site-config';
+import { SiteConfigManager } from 'graby-ts-site-config';
 
 // Create a site config manager instance
 const configManager = new SiteConfigManager();

@@ -1,7 +1,7 @@
 {
-  "name": "grabby-js-site-config",
+  "name": "graby-ts-site-config",
   "version": "1.0.0",
-  "description": "Site configuration loader for Grabby-JS with dynamic imports",
+  "description": "Site configuration loader for Graby-TS with dynamic imports",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
-    "grabby-js",
+    "graby-ts",
     "readability",
     "site-config",
     "content-extraction",
