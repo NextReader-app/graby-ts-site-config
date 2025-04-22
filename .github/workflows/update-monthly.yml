@@ -1,0 +1,64 @@
+name: Monthly Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 1 * *"  # Run at 2 AM on the 1st day of each month
+
+jobs:
+  update:
+    name: "Update ftr-site-config and release if needed"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 0
+
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: "Install dependencies"
+        run: npm install
+
+      - name: "Configure git"
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: "Update ftr-site-config submodule"
+        run: npm run update-source
+
+      - name: "Check for changes"
+        id: check_changes
+        run: |
+          if git diff --staged --quiet; then
+            echo "No changes to ftr-site-config"
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in ftr-site-config"
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: "Create patch release"
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          # Update version in package.json
+          npm version patch -m "Update ftr-site-config to latest version"
+          
+          # Build the project
+          npm run build
+          
+          # Commit and push changes
+          git push origin master
+          git push --tags
+
+      - name: "Publish to NPM"
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
