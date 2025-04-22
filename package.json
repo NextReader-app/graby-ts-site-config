@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "update-source": "git submodule update --init --recursive || (rm -rf ftr-site-config && git submodule add https://github.com/fivefilters/ftr-site-config.git)",
-    "build:configs": "ts-node scripts/build-configs.ts",
+    "build:configs": "ts-node --esm scripts/build-configs.ts",
     "build:ts": "tsc",
     "build": "npm run update-source && npm run build:configs && npm run build:ts",
     "test": "jest",
