@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { parseConfigFile } from '../SiteConfigParser';
+import { parseConfigFile } from '../SiteConfigParser.js';
 
 describe('SiteConfigParser', () => {
   it('parses empty config correctly', () => {

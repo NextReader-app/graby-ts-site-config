@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { SiteConfigManager } from '../SiteConfigManager';
-import type { SiteConfig } from '../types';
+import { SiteConfigManager } from '../SiteConfigManager.js';
+import type { SiteConfig } from '../types.js';
 
 // Mock configs
 const mockExampleConfig: SiteConfig = {

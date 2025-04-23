@@ -1,6 +1,6 @@
-import { SiteConfigManager } from './SiteConfigManager';
-import type { SiteConfig } from './types';
-import { parseConfigFile } from './SiteConfigParser';
+import { SiteConfigManager } from './SiteConfigManager.js';
+import type { SiteConfig } from './types.js';
+import { parseConfigFile } from './SiteConfigParser.js';
 
 // Export types
 export type { SiteConfig };

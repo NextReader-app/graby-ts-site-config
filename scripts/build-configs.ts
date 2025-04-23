@@ -47,7 +47,7 @@ for (const file of configFiles) {
   const outputFile = path.join(OUTPUT_DIR, `${basename}.ts`);
   const fileContent = `// Configuration for ${basename}
 // Automatically generated from FiveFilters site config
-import type { SiteConfig } from '../types';
+import type { SiteConfig } from '../types.js';
 
 const config: SiteConfig = ${JSON.stringify(config, null, 2)};
 

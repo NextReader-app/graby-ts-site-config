@@ -1,4 +1,4 @@
-import type { SiteConfig } from './types';
+import type { SiteConfig } from './types.js';
 
 // Authentication-related tags that we'll ignore
 const IGNORED_AUTH_TAGS = new Set([

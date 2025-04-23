@@ -1,5 +1,5 @@
-import type { SiteConfig } from './types';
-import { domains, wildcards, specificSubdomains } from './site-index';
+import type { SiteConfig } from './types.js';
+import { domains, wildcards, specificSubdomains } from './site-index.js';
 
 /**
  * Manager for site-specific extraction configurations
