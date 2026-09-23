@@ -38,5 +38,13 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NextReader-app/graby-ts-site-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NextReader-app/graby-ts-site-config/issues"
+  },
+  "homepage": "https://github.com/NextReader-app/graby-ts-site-config#readme"
 }
