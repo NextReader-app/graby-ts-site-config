@@ -2,6 +2,11 @@ name: Monthly Update
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_current:
+        description: "Publish the current version as is, without updating or bumping"
+        type: boolean
+        default: false
   schedule:
     - cron: "0 2 1 * *"  # Run at 2 AM on the 1st day of each month
 
@@ -36,6 +41,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: "Update ftr-site-config submodule to upstream HEAD"
+        if: ${{ !inputs.publish_current }}
         run: |
           echo "Before: $(git rev-parse HEAD:ftr-site-config)"
           npm run update-source:latest
@@ -44,6 +50,7 @@ jobs:
 
       - name: "Check for changes"
         id: check_changes
+        if: ${{ !inputs.publish_current }}
         run: |
           if git diff --cached --quiet -- ftr-site-config; then
             echo "No changes to ftr-site-config"
@@ -54,13 +61,13 @@ jobs:
           fi
 
       - name: "Rebuild configs"
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        if: ${{ inputs.publish_current || steps.check_changes.outputs.changes_detected == 'true' }}
         run: |
           npm run build:configs
           npm run build:ts
 
       - name: "Create patch release"
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        if: ${{ !inputs.publish_current && steps.check_changes.outputs.changes_detected == 'true' }}
         run: |
           # Commit the submodule bump first: `npm version` refuses to run on a dirty tree
           git commit -m "Update ftr-site-config to $(git -C ftr-site-config rev-parse --short HEAD)"
@@ -72,5 +79,5 @@ jobs:
           git push --tags
 
       - name: "Publish to NPM"
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        if: ${{ inputs.publish_current || steps.check_changes.outputs.changes_detected == 'true' }}
         run: npm publish
