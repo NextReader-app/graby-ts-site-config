@@ -1,3 +1,4 @@
 [submodule "ftr-site-config"]
 	path = ftr-site-config
 	url = https://github.com/fivefilters/ftr-site-config.git
+	branch = master

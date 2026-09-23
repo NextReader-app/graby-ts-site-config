@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: "0 2 1 * *"  # Run at 2 AM on the 1st day of each month
 
+permissions:
+  contents: write
+
 jobs:
   update:
     name: "Update ftr-site-config and release if needed"
@@ -15,6 +18,7 @@ jobs:
         uses: "actions/checkout@v4"
         with:
           fetch-depth: 0
+          submodules: recursive
 
       - name: "Setup Node.js"
         uses: "actions/setup-node@v4"
@@ -30,13 +34,17 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: "Update ftr-site-config submodule"
-        run: npm run update-source
+      - name: "Update ftr-site-config submodule to upstream HEAD"
+        run: |
+          echo "Before: $(git rev-parse HEAD:ftr-site-config)"
+          npm run update-source:latest
+          git add ftr-site-config
+          echo "After:  $(git rev-parse --revs-only :ftr-site-config)"
 
       - name: "Check for changes"
         id: check_changes
         run: |
-          if git diff --staged --quiet; then
+          if git diff --cached --quiet -- ftr-site-config; then
             echo "No changes to ftr-site-config"
             echo "changes_detected=false" >> $GITHUB_OUTPUT
           else
@@ -44,17 +52,22 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
 
+      - name: "Rebuild configs"
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          npm run build:configs
+          npm run build:ts
+
       - name: "Create patch release"
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
-          # Update version in package.json
-          npm version patch -m "Update ftr-site-config to latest version"
-          
-          # Build the project
-          npm run build
-          
-          # Commit and push changes
-          git push origin master
+          # Commit the submodule bump first: `npm version` refuses to run on a dirty tree
+          git commit -m "Update ftr-site-config to $(git -C ftr-site-config rev-parse --short HEAD)"
+
+          # Bump version, which creates its own commit and the v* tag
+          npm version patch -m "Release %s with updated ftr-site-config"
+
+          git push origin HEAD:master
           git push --tags
 
       - name: "Publish to NPM"
