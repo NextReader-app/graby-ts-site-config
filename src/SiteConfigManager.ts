@@ -1,5 +1,6 @@
 import type { SiteConfig } from './types.js';
 import { domains, wildcards, specificSubdomains } from './site-index.js';
+import { configFileName } from './site-files.js';
 
 /**
  * Manager for site-specific extraction configurations
@@ -106,7 +107,7 @@ export class SiteConfigManager {
   private async loadConfig(configKey: string): Promise<SiteConfig> {
     try {
       // Dynamic import for the config file
-      const configModule = await import(`./sites/${configKey}.js`);
+      const configModule = await import(`./sites/${configFileName(configKey)}.js`);
       return configModule.default as SiteConfig;
     } catch (error) {
       console.error(`Failed to load config for ${configKey}:`, error);

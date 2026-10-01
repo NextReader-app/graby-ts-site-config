@@ -4,6 +4,8 @@ import * as glob from 'glob';
 import { fileURLToPath } from 'url';
 // @ts-ignore
 import { parseConfigFile } from '../src/SiteConfigParser.ts';
+// @ts-ignore
+import { configFileName } from '../src/site-files.ts';
 
 // Get directory path in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -44,7 +46,7 @@ for (const file of configFiles) {
   const config = parseConfigFile(content, basename);
 
   // Create TypeScript file for this config
-  const outputFile = path.join(OUTPUT_DIR, `${basename}.ts`);
+  const outputFile = path.join(OUTPUT_DIR, `${configFileName(basename)}.ts`);
   const fileContent = `// Configuration for ${basename}
 // Automatically generated from FiveFilters site config
 import type { SiteConfig } from '../types.js';
